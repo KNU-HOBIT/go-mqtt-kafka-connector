@@ -1,0 +1,24 @@
+# Ignore connector YAML files
+*-connector.yaml
+
+# Ignore config.yaml
+config.yaml
+
+# Ignore typical build and dependency directories/files
+bin/
+obj/
+*.log
+*.out
+*.exe
+
+# Ignore node_modules (if any)
+node_modules/
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore IDE specific files
+.vscode/
+.idea/
+*.iml
