@@ -21,6 +21,28 @@ This repository contains a Go application that bridges MQTT messages to a Kafka 
 
 ## Getting Started
 
+To set up and run this project for the first time, follow these steps:
+
+1. **Initialize the Go module**:
+   ```sh
+   go mod init <module-name>
+   ```
+   Replace <module-name> with your project's module path or name.
+2. **Download the dependencies**:
+   ```sh
+   go mod download
+   ```
+3. **Run the project**:
+   ```sh
+   go run main.go --type=<type> --id=<id>
+   ```
+   Replace <type> and <id> with the appropriate values. For example:
+   ```sh
+   go run main.go --type=transport --id=932
+   ```
+
+
+### Docker and Kubernetes
 1. **Build the Docker Image**:
    ```sh
    docker build -t yourname/go-mqtt-kafka-connector:v0.x.x .
