@@ -27,7 +27,18 @@ type Config struct {
 	Kafka KAFKAConfig `yaml:"kafka"`
 }
 
+var seoulLocation *time.Location
+
+func init() {
+	var err error
+	seoulLocation, err = time.LoadLocation("Asia/Seoul")
+	if err != nil {
+		panic(fmt.Sprintf("failed to load location 'Asia/Seoul': %v", err))
+	}
+}
+
 func main() {
+
 	// Reading command line arguments
 	topicType := flag.String("type", "", "Topic type for MQTT and Kafka")
 	topicID := flag.String("id", "", "Topic ID for MQTT and Kafka")
@@ -91,9 +102,12 @@ func main() {
 	// MQTT message handler
 	mqttMessageHandler := func(client mqtt.Client, msg mqtt.Message) {
 		// Send message to Kafka
+		now := time.Now().In(seoulLocation) // 현재 시간을 'Asia/Seoul' 시간대로 가져옵니다.
 		if err := producer.Produce(&kafka.Message{
 			TopicPartition: kafka.TopicPartition{Topic: &kafkaTopic, Partition: kafka.PartitionAny},
 			Value:          msg.Payload(),
+			Timestamp:      now,                       // 메시지 타임스탬프 설정
+			TimestampType:  kafka.TimestampCreateTime, // 타임스탬프 타입 설정
 		}, nil); err != nil {
 			fmt.Printf("Failed to produce to Kafka: %s\n", err)
 		}
